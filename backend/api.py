@@ -11,6 +11,9 @@ from engine.antigravity import calculate_technical_indicators, detect_gravity
 from engine.models import get_predictions
 from engine.xai import generate_shap_stubs
 from engine.nse_symbols import search_symbols, get_symbol_list
+from engine.sentiment import SentimentEngine
+
+sentiment_mgr = SentimentEngine()
 
 app = FastAPI(title="NSE Antigravity Predictor API")
 
@@ -97,6 +100,7 @@ async def analyze_stock(ticker: str):
             "gravity": gravity_data,
             "prediction": prediction_data,
             "xai_insights": xai_data,
+            "sentiment": sentiment_mgr.get_score(stock.news),
             "chart_data": chart_json,
             "analyzed_at": datetime.datetime.now().isoformat()
         }
