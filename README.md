@@ -1,90 +1,44 @@
-# 📈 AI Stock Price Predictor
+# NSE Antigravity Predictor 🚀
 
-A Python-based stock predictor that combines **web-scraped news sentiment** with **historical price data** and **machine learning** to predict the next day's closing price.
+A real-time, high-performance stock market prediction engine for the National Stock Exchange (NSE) using Next.js, FastAPI, and Advanced ML.
 
-## Architecture
+![Dashboard Preview](https://raw.githubusercontent.com/mayanksinghbro/Stockanalyser/main/frontend_next/public/preview.png)
 
-```
-News Headlines (RSS)  ─→  Sentiment Analysis (VADER / FinBERT)  ─┐
-                                                                   ├──→  ML Prediction  ──→  Upside / Downside %
-Historical Prices (yfinance)  ─→  Technical Indicators  ──────────┘
-```
+## 🌐 Live Deployment
 
-## Components
+You can deploy this application to the cloud in minutes:
 
-| Module | Purpose |
-|---|---|
-| `data_collector.py` | Scrapes Google/Yahoo News RSS feeds for stock headlines |
-| `sentiment_analyzer.py` | VADER (fast) or FinBERT (accurate) sentiment scoring |
-| `financial_data.py` | yfinance OHLCV data + 7 technical indicators |
-| `predictor.py` | RandomForest + LSTM models with ensemble averaging |
-| `main.py` | CLI orchestrator with formatted output |
-| `config.py` | All tunable parameters in one place |
+### 1. Backend (FastAPI)
+Deploy the backend first to get your API URL.
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/mayanksinghbro/Stockanalyser)
 
-## Quick Start
+*Note: The backend is located in the `/backend` directory. Render will automatically detect the `render.yaml` blueprint.*
 
-```bash
-# 1. Install dependencies
-pip install -r requirements.txt
+### 2. Frontend (Next.js)
+Deploy the frontend and point it to your backend URL.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmayanksinghbro%2FStockanalyser&root-directory=frontend_next&env=NEXT_PUBLIC_API_URL)
 
-# 2. Run with default ticker (AAPL)
-python main.py
+---
 
-# 3. Run with a specific ticker
-python main.py --ticker MSFT
+## ✨ Features
+- **Real-time Data**: Fetches live NSE equity data and YFinance prices.
+- **Smart Search**: Typeahead search for 2,000+ Indian stocks.
+- **ML Predictions**: Prophet-based price forecasting with confidence intervals.
+- **XAI (Explainable AI)**: Understand the "why" behind every prediction.
+- **News Sentiment**: VADER-powered sentiment scoring of live financial news.
+- **Premium UI**: Glassmorphism design with Inter & Space Grotesk typography.
 
-# 4. Use FinBERT for better sentiment analysis (requires GPU for speed)
-python main.py --ticker TSLA --finbert
+## 🛠️ Local Setup
 
-# 5. Fast mode — skip LSTM, use RandomForest only
-python main.py --ticker GOOGL --no-lstm
-```
+### Backend
+1. `cd backend`
+2. `pip install -r requirements.txt`
+3. `python api.py` (Runs on http://localhost:8001)
 
-## Features Used by the Model
+### Frontend
+1. `cd frontend_next`
+2. `npm install`
+3. `npm run dev` (Runs on http://localhost:3000)
 
-**Technical Indicators:**
-- 5-day & 10-day Simple Moving Averages (SMA)
-- Daily returns & 5-day rolling volatility
-- Intraday price range
-- Volume moving average
-- 14-period RSI
-
-**Sentiment:**
-- Compound sentiment score from news headlines (daily aggregate)
-
-## Configuration
-
-Edit `config.py` to tune:
-- Default ticker and lookback period
-- RSS feed sources
-- VADER vs FinBERT toggle
-- RandomForest hyperparameters (estimators, depth)
-- LSTM hyperparameters (layers, hidden size, epochs, learning rate)
-
-## Sample Output
-
-```
-══════════════════════════════════════════════════════════════
-║                   STOCK PREDICTOR — AAPL                  ║
-══════════════════════════════════════════════════════════════
-
-── 5 · Prediction Results ─────────────────────────────────
-
-  RandomForest
-    Predicted Close:  $198.45
-    Signal:           ▲ UPSIDE  +1.23%
-    MAE:  $2.15   RMSE: $3.02
-
-  LSTM
-    Predicted Close:  $197.80
-    Signal:           ▲ UPSIDE  +0.90%
-    MAE:  $2.50   RMSE: $3.45
-
-  Ensemble (RF:50% + LSTM:50%)
-    Predicted Close:  $198.13
-    Signal:           ▲ UPSIDE  +1.07%
-```
-
-## ⚠️ Disclaimer
-
-This tool is for **educational and research purposes only**. It is not financial advice. Past performance does not guarantee future results. Always do your own research before making investment decisions.
+## 📄 License
+MIT
